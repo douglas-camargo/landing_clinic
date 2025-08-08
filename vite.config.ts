@@ -12,6 +12,10 @@ export default defineConfig({
         chunkFileNames: 'assets/js/[name]-[hash].js',
         entryFileNames: 'assets/js/[name]-[hash].js',
         assetFileNames: (assetInfo) => {
+          // Comprobamos si assetInfo.name está definido antes de usar split
+          if (!assetInfo.name) {
+            return `assets/[name]-[hash][extname]`
+          }
           const info = assetInfo.name.split('.')
           const ext = info[info.length - 1]
           if (/png|jpe?g|svg|gif|tiff|bmp|ico/i.test(ext)) {
@@ -24,18 +28,14 @@ export default defineConfig({
         }
       }
     },
-    // Optimizaciones de compresión
-    minify: 'terser',
-    terserOptions: {
-      compress: {
-        drop_console: true,
-        drop_debugger: true
-      }
-    },
+    // Optimizaciones de compresión - usar esbuild por defecto para mayor compatibilidad
+    minify: 'esbuild',
     // Generar source maps para debugging (solo en desarrollo)
     sourcemap: false,
     // Optimizar el tamaño del bundle
-    chunkSizeWarningLimit: 1000
+    chunkSizeWarningLimit: 1000,
+    // Configuración específica para Vercel
+    target: 'es2015'
   },
   // Optimizaciones de desarrollo
   server: {

@@ -28,7 +28,7 @@ export default defineConfig({
         }
       }
     },
-    // Optimizaciones de compresión - usar esbuild por defecto para mayor compatibilidad
+    // Optimizaciones de compresión
     minify: 'esbuild',
     // Generar source maps para debugging (solo en desarrollo)
     sourcemap: false,

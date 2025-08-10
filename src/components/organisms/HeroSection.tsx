@@ -21,8 +21,8 @@ export default function HeroSection() {
     >
       <div className="container mx-auto px-4">
                  <div className="grid lg:grid-cols-2 gap-12 items-center">
-           {/* Left content */}
-           <ScrollAnimatedSection direction="left" delay={0.2}>
+                       {/* Left content */}
+            <ScrollAnimatedSection direction="left" delay={0.1} duration={0.3}>
              <div className="space-y-8">
                <header className="space-y-4">
                  <h1 
@@ -39,11 +39,12 @@ export default function HeroSection() {
                </header>
 
                {/* Stats */}
-               <StaggeredAnimation 
-                 direction="alternate"
-                 staggerDelay={0.2}
-                 className="grid md:grid-cols-3 gap-6"
-               >
+                <StaggeredAnimation 
+                  direction="alternate"
+                  staggerDelay={0.1}
+                  duration={0.3}
+                  className="grid md:grid-cols-3 gap-6"
+                >
                  <StatCard 
                    icon={Shield} 
                    value="15+" 
@@ -89,8 +90,8 @@ export default function HeroSection() {
              </div>
            </ScrollAnimatedSection>
 
-           {/* Right content - Image */}
-           <ScrollAnimatedSection direction="right" delay={0.4}>
+                       {/* Right content - Image */}
+            <ScrollAnimatedSection direction="right" delay={0.2} duration={0.3}>
              <div className="relative">
                <div className="relative z-10">
                  <img 

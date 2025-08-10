@@ -1,48 +1,10 @@
 import TestimonialCard from '../molecules/TestimonialCard';
-
-const testimonials = [
-  {
-    name: 'María Pérez',
-    age: 45,
-    treatment: 'Cardiología',
-    image: 'https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?auto=compress&cs=tinysrgb&w=400',
-    rating: 5,
-    text: 'El Dr. Mendoza salvó mi vida. Su profesionalismo y dedicación son excepcionales. Todo el personal fue muy amable durante mi tratamiento.',
-    date: 'Hace 2 meses'
-  },
-  {
-    name: 'José Rodríguez',
-    age: 38,
-    treatment: 'Oftalmología',
-    image: 'https://images.pexels.com/photos/1300402/pexels-photo-1300402.jpeg?auto=compress&cs=tinysrgb&w=400',
-    rating: 5,
-    text: 'Recuperé mi visión completamente gracias al Dr. Silva. La cirugía fue perfecta y el seguimiento post-operatorio excelente.',
-    date: 'Hace 1 mes'
-  },
-  {
-    name: 'Carmen López',
-    age: 32,
-    treatment: 'Pediatría',
-    image: 'https://images.pexels.com/photos/1181690/pexels-photo-1181690.jpeg?auto=compress&cs=tinysrgb&w=400',
-    rating: 5,
-    text: 'La Dra. Rodríguez ha cuidado a mis hijos desde pequeños. Su trato es maravilloso y siempre está disponible cuando la necesitamos.',
-    date: 'Hace 3 semanas'
-  },
-  {
-    name: 'Antonio Silva',
-    age: 52,
-    treatment: 'Neurología',
-    image: 'https://images.pexels.com/photos/1222271/pexels-photo-1222271.jpeg?auto=compress&cs=tinysrgb&w=400',
-    rating: 5,
-    text: 'Después de meses de dolores de cabeza, la Dra. González encontró la causa y me ayudó a recuperar mi calidad de vida.',
-    date: 'Hace 6 semanas'
-  }
-];
+import { testimonials, patientStats } from '../../data';
 
 export default function TestimonialsSection() {
   return (
     <section 
-      id="testimonios" 
+      id="testimonials" 
       className="py-20 bg-white"
       aria-labelledby="testimonials-heading"
     >
@@ -82,22 +44,12 @@ export default function TestimonialsSection() {
             role="list"
             aria-label="Métricas de calidad médica"
           >
-            <div role="listitem">
-              <div className="text-4xl font-bold mb-2">98%</div>
-              <div className="opacity-90">Satisfacción del paciente</div>
-            </div>
-            <div role="listitem">
-              <div className="text-4xl font-bold mb-2">50K+</div>
-              <div className="opacity-90">Pacientes atendidos</div>
-            </div>
-            <div role="listitem">
-              <div className="text-4xl font-bold mb-2">4.9</div>
-              <div className="opacity-90">Calificación promedio</div>
-            </div>
-            <div role="listitem">
-              <div className="text-4xl font-bold mb-2">15+</div>
-              <div className="opacity-90">Años de experiencia</div>
-            </div>
+            {patientStats.map((stat, index) => (
+              <div key={index} role="listitem">
+                <div className="text-4xl font-bold mb-2">{stat.value}</div>
+                <div className="opacity-90">{stat.label}</div>
+              </div>
+            ))}
           </div>
         </aside>
       </div>

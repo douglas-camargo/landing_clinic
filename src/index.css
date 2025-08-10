@@ -1,3 +1,37 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Prevenir scroll automático durante animaciones */
+html {
+  scroll-behavior: auto;
+}
+
+body {
+  overflow-anchor: none;
+}
+
+/* Optimizar animaciones */
+* {
+  backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Mejorar rendimiento de animaciones */
+.motion-safe\:transform-gpu {
+  transform: translateZ(0);
+}
+
+/* Suavizar transiciones globales */
+* {
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+  transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition-duration: 150ms;
+}
+
+/* Optimizar elementos animados */
+[data-framer-motion] {
+  will-change: transform, opacity;
+  transform: translateZ(0);
+}

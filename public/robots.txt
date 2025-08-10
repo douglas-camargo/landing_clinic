@@ -12,7 +12,14 @@ Disallow: /admin/
 Disallow: /private/
 
 # Allow important pages
-Allow: /servicios/
-Allow: /especialistas/
-Allow: /contacto/
-Allow: /testimonios/
+Allow: /services/
+Allow: /specialists/
+Allow: /contact/
+Allow: /testimonials/
+
+# Additional SEO-friendly directives
+Allow: /home/
+Allow: /about/
+Allow: /medical-services/
+Allow: /doctors/
+Allow: /appointments/

@@ -12,7 +12,7 @@ export default function HeroSection() {
 
   return (
     <section 
-      id="inicio" 
+      id="home" 
       className="pt-32 pb-16 bg-gradient-to-br from-blue-50 to-green-50 min-h-screen flex items-center"
       aria-labelledby="hero-heading"
       role="banner"
@@ -67,7 +67,7 @@ export default function HeroSection() {
               aria-label="Acciones principales"
             >
               <Button 
-                onClick={() => scrollToSection('contacto')}
+                onClick={() => scrollToSection('contact')}
                 icon={ArrowRight}
                 size="lg"
                 aria-label="Agendar cita médica"
@@ -75,7 +75,7 @@ export default function HeroSection() {
                 Agendar Cita
               </Button>
               <Button 
-                onClick={() => scrollToSection('servicios')}
+                onClick={() => scrollToSection('services')}
                 variant="outline"
                 size="lg"
                 aria-label="Ver todos los servicios médicos"

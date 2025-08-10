@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { MapPin, Phone, Mail, Clock, Send, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
 import ContactInfo from '../molecules/ContactInfo';
 import FormField from '../molecules/FormField';
@@ -6,7 +6,7 @@ import Input from '../atoms/Input';
 import TextArea from '../atoms/TextArea';
 import Select from '../atoms/Select';
 import Button from '../atoms/Button';
-import { EncryptionService } from '../../services/encryption';
+import { useContactForm } from '../../hooks';
 
 const serviceOptions = [
   { value: 'consulta-general', label: 'Consulta General' },
@@ -31,262 +31,21 @@ const serviceOptions = [
   { value: 'reumatologia', label: 'Reumatología' }
 ];
 
-interface ApiResponse {
-  success: boolean;
-  message: string;
-  citaId?: string;
-}
-
-interface AuthResponse {
-  success: boolean;
-  message: string;
-  data: {
-    token: string;
-    expiresIn: string;
-    type: string;
-    environment: string;
-  };
-}
-
-interface TokenData {
-  token: string;
-  expiresAt: number; // Timestamp de expiración
-}
-
 export default function ContactSection() {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    service: '',
-    message: ''
-  });
-  const [isLoading, setIsLoading] = useState(false);
-  const [isRefreshingToken, setIsRefreshingToken] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [successMessage, setSuccessMessage] = useState<string | null>(null);
-  const [authToken, setAuthToken] = useState<TokenData | null>(null);
-
-  const getAuthToken = async (): Promise<TokenData | null> => {
-    try {
-      const baseUrl = import.meta.env.VITE_API_BASE_URL;
-      const clientId = import.meta.env.VITE_API_CLIENT_ID;
-      const clientSecret = import.meta.env.VITE_API_CLIENT_SECRET;
-      
-      if (!baseUrl || !clientId || !clientSecret) {
-        throw new Error('Variables de entorno de API no configuradas');
-      }
-      
-      const response = await fetch(`${baseUrl}/api/auth/token`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(EncryptionService.encryptCredentials(clientId, clientSecret))
-      });
-
-      if (!response.ok) {
-        throw new Error(`Error HTTP: ${response.status} ${response.statusText}`);
-      }
-
-      const data: AuthResponse = await response.json();
-
-      if (data.success && data.data?.token) {
-        // Calcular timestamp de expiración (24h = 24 * 60 * 60 * 1000 ms)
-        const expiresInMs = 24 * 60 * 60 * 1000;
-        const expiresAt = Date.now() + expiresInMs;
-        
-        return {
-          token: data.data.token,
-          expiresAt: expiresAt
-        };
-      } else {
-        throw new Error(data.message || 'Error al obtener token de autenticación');
-      }
-    } catch (error) {
-      return null;
-    }
-  };
-
-  const isTokenValid = (tokenData: TokenData | null): boolean => {
-    if (!tokenData) return false;
-    
-    // Verificar si el token no ha expirado (con margen de 5 minutos)
-    const marginMs = 5 * 60 * 1000; // 5 minutos
-    return Date.now() < (tokenData.expiresAt - marginMs);
-  };
-
-  const getValidToken = async (): Promise<string | null> => {
-    // Verificar si tenemos un token válido
-    if (isTokenValid(authToken)) {
-      return authToken!.token;
-    }
-
-    // Si no hay token válido, obtener uno nuevo
-    const newTokenData = await getAuthToken();
-    if (newTokenData) {
-      setAuthToken(newTokenData);
-      // Guardar en localStorage
-      localStorage.setItem('authToken', JSON.stringify(newTokenData));
-      return newTokenData.token;
-    }
-
-    return null;
-  };
-
-  // Función para renovar token automáticamente
-  const refreshToken = async (): Promise<TokenData | null> => {
-    setIsRefreshingToken(true);
-    
-    try {
-      // Limpiar token actual
-      setAuthToken(null);
-      localStorage.removeItem('authToken');
-      
-      // Obtener nuevo token
-      const newToken = await getAuthToken();
-      if (newToken) {
-        setAuthToken(newToken);
-        localStorage.setItem('authToken', JSON.stringify(newToken));
-      }
-      
-      return newToken;
-    } finally {
-      setIsRefreshingToken(false);
-    }
-  };
-
-  // Cargar token desde localStorage al montar el componente
-  useEffect(() => {
-    const savedToken = localStorage.getItem('authToken');
-    if (savedToken) {
-      try {
-        const tokenData: TokenData = JSON.parse(savedToken);
-        // Verificar si el token guardado sigue siendo válido
-        if (isTokenValid(tokenData)) {
-          setAuthToken(tokenData);
-        } else {
-          // Token expirado, limpiar localStorage
-          localStorage.removeItem('authToken');
-        }
-      } catch (error) {
-        localStorage.removeItem('authToken');
-      }
-    }
-  }, []);
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
-    setError(null);
-    setSuccessMessage(null);
-
-    try {
-      // Obtener token de autenticación válido
-      const token = await getValidToken();
-      if (!token) {
-        throw new Error('No se pudo obtener el token de autenticación');
-      }
-
-      const baseUrl = import.meta.env.VITE_API_BASE_URL;
-      const response = await fetch(`${baseUrl}/api/citas`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({
-          name: formData.name,
-          email: formData.email,
-          phone: formData.phone,
-          service: formData.service,
-          message: formData.message
-        })
-      });
-
-      const data: ApiResponse = await response.json();
-
-      if (response.ok && data.success) {
-        setSuccessMessage(data.message);
-        setIsSubmitted(true);
-        setFormData({ name: '', email: '', phone: '', service: '', message: '' });
-        
-        // Limpiar mensaje de éxito después de 5 segundos
-        setTimeout(() => {
-          setIsSubmitted(false);
-          setSuccessMessage(null);
-        }, 5000);
-      } else {
-        // Si el token es inválido, intentar renovarlo y reintentar la petición
-        if (data.message === 'Token inválido' || response.status === 401) {
-          // Renovar token automáticamente
-          const newToken = await refreshToken();
-          if (newToken) {
-            // Reintentar la petición con el nuevo token
-            const retryResponse = await fetch(`${baseUrl}/api/citas`, {
-              method: 'POST',
-              headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${newToken.token}`
-              },
-              body: JSON.stringify({
-                name: formData.name,
-                email: formData.email,
-                phone: formData.phone,
-                service: formData.service,
-                message: formData.message
-              })
-            });
-
-            const retryData: ApiResponse = await retryResponse.json();
-
-            if (retryResponse.ok && retryData.success) {
-              setSuccessMessage(retryData.message);
-              setIsSubmitted(true);
-              setFormData({ name: '', email: '', phone: '', service: '', message: '' });
-              
-              // Limpiar mensaje de éxito después de 5 segundos
-              setTimeout(() => {
-                setIsSubmitted(false);
-                setSuccessMessage(null);
-              }, 5000);
-            } else {
-              setError(retryData.message || 'Error al enviar la cita después de renovar el token. Por favor, intenta nuevamente.');
-            }
-          } else {
-            setError('No se pudo renovar el token de autenticación. Por favor, recarga la página e intenta nuevamente.');
-          }
-        } else {
-          setError(data.message || 'Error al enviar la cita. Por favor, intenta nuevamente.');
-        }
-      }
-    } catch (error) {
-      if (error instanceof Error) {
-        setError(error.message);
-      } else {
-        setError('Error de conexión. Por favor, verifica tu conexión a internet e intenta nuevamente.');
-      }
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-    
-    // Limpiar errores cuando el usuario empiece a escribir
-    if (error) {
-      setError(null);
-    }
-  };
+  const {
+    formData,
+    isLoading,
+    isRefreshingToken,
+    isSubmitted,
+    error,
+    successMessage,
+    handleSubmit,
+    handleChange
+  } = useContactForm();
 
   return (
     <section 
-      id="contacto" 
+      id="contact" 
       className="py-20 bg-gray-50"
       aria-labelledby="contact-heading"
     >

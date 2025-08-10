@@ -87,7 +87,7 @@ export default function StaggeredAnimation({
         <motion.div
           key={index}
           custom={getDirection(index)}
-          variants={itemVariants}
+          variants={itemVariants as any}
           style={{ 
             transformOrigin: 'center',
             willChange: 'transform, opacity'

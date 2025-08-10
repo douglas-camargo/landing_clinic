@@ -8,7 +8,7 @@ export default function SpecialistsSection() {
   return (
     <section 
       id="specialists" 
-      className="py-20 bg-gray-50"
+      className="py-20 bg-gray-50  scroll-mt-10"
       aria-labelledby="specialists-heading"
     >
       <div className="container mx-auto px-4">

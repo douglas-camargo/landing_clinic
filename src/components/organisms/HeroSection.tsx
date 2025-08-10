@@ -15,7 +15,7 @@ export default function HeroSection() {
   return (
     <section 
       id="home" 
-      className="pt-32 pb-16 bg-gradient-to-br from-blue-50 to-green-50 min-h-screen flex items-center"
+      className="pt-[150px] pb-16 bg-gradient-to-br from-blue-50 to-green-50 min-h-screen flex items-center"
       aria-labelledby="hero-heading"
       role="banner"
     >

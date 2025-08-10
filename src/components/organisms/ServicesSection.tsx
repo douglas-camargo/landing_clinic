@@ -7,7 +7,7 @@ export default function ServicesSection() {
   return (
     <section 
       id="services" 
-      className="py-20 bg-white"
+      className="py-20 bg-white scroll-mt-10"
       aria-labelledby="services-heading"
     >
       <div className="container mx-auto px-4">

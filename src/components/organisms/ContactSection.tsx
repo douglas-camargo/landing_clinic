@@ -46,7 +46,7 @@ export default function ContactSection() {
   return (
     <section 
       id="contact" 
-      className="py-20 bg-gray-50"
+      className="py-20 bg-gray-50  scroll-mt-10"
       aria-labelledby="contact-heading"
     >
       <div className="container mx-auto px-4">

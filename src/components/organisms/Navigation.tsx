@@ -55,7 +55,7 @@ export default function Navigation() {
                 {item.label}
               </button>
             ))}
-            <Button onClick={() => handleScrollToSection('contacto')}>
+            <Button onClick={() => handleScrollToSection('contact')}>
               Agendar Cita
             </Button>
           </div>
@@ -84,7 +84,7 @@ export default function Navigation() {
               </button>
             ))}
             <Button 
-              onClick={() => handleScrollToSection('contacto')}
+              onClick={() => handleScrollToSection('contact')}
               className="w-full mt-4"
             >
               Agendar Cita

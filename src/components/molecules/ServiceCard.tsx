@@ -27,4 +27,4 @@ export default function ServiceCard({ icon: Icon, title, description, features }
       </ul>
     </div>
   );
-}
+};

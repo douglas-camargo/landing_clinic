@@ -1,4 +1,3 @@
-import React from 'react';
 import { MapPin, Phone, Mail, Clock, Send, CheckCircle, AlertCircle, Loader2 } from 'lucide-react';
 import ContactInfo from '../molecules/ContactInfo';
 import FormField from '../molecules/FormField';
@@ -266,4 +265,4 @@ export default function ContactSection() {
       </div>
     </section>
   );
-}
+};

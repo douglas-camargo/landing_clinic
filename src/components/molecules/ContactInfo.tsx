@@ -20,4 +20,4 @@ export default function ContactInfo({ icon: Icon, title, details }: ContactInfoP
       </div>
     </div>
   );
-}
+};

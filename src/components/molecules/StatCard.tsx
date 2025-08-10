@@ -17,4 +17,4 @@ export default function StatCard({ icon: Icon, value, label, iconColor = 'text-b
       </div>
     </div>
   );
-}
+};

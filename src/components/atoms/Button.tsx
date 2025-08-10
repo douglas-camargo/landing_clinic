@@ -49,4 +49,4 @@ export default function Button({
       {Icon && <Icon className="w-5 h-5 ml-2" />}
     </button>
   );
-}
+};

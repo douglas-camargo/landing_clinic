@@ -49,4 +49,4 @@ export default function SlideInSection({
       {children}
     </motion.div>
   );
-}
+};

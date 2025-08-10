@@ -17,10 +17,7 @@ export default function ScrollAnimatedSection({
   direction = 'up',
   duration = 0.8,
   delay = 0,
-  className = "",
-  stagger = false,
-  staggerDelay = 0.1
-}: ScrollAnimatedSectionProps) {
+  className = ""}: ScrollAnimatedSectionProps) {
   const { ref, isVisible } = useScrollAnimation();
 
   const getInitialPosition = () => {
@@ -75,4 +72,5 @@ export default function ScrollAnimatedSection({
       {children}
     </motion.div>
   );
-}
+};
+

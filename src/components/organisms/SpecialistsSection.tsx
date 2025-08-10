@@ -1,6 +1,8 @@
 import { Award, Star, Calendar } from 'lucide-react';
 import SpecialistCard from '../molecules/SpecialistCard';
-import { specialists, specialistStats } from '../../data';
+import { specialists } from '../../data/specialists';
+import { specialistStats } from '../../data/stats';
+import StaggeredAnimation from '../atoms/StaggeredAnimation';
 
 export default function SpecialistsSection() {
   return (
@@ -22,17 +24,17 @@ export default function SpecialistsSection() {
           </p>
         </header>
 
-        <div 
+        <StaggeredAnimation 
+          direction="alternate"
+          staggerDelay={0.2}
           className="grid md:grid-cols-2 lg:grid-cols-4 gap-8"
-          role="list"
-          aria-label="Lista de especialistas médicos certificados"
         >
           {specialists.map((doctor, index) => (
             <div key={index} role="listitem">
               <SpecialistCard {...doctor} />
             </div>
           ))}
-        </div>
+        </StaggeredAnimation>
 
         {/* Additional info */}
         <aside 

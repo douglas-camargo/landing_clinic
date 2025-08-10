@@ -2,7 +2,9 @@ import { Menu, X, Phone, MapPin } from 'lucide-react';
 import Logo from '../atoms/Logo';
 import Button from '../atoms/Button';
 import { menuItems, contactInfo } from '../../data/navigation';
-import { useScrollDetection, useScrollToSection, useMobileMenu } from '../../hooks';
+import { useScrollDetection } from '../../hooks/useScrollDetection';
+import { useScrollToSection } from '../../hooks/useScrollToSection';
+import { useMobileMenu } from '../../hooks/useMobileMenu';
 
 export default function Navigation() {
   const isScrolled = useScrollDetection(50);

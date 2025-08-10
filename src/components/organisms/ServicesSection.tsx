@@ -1,6 +1,7 @@
 import ServiceCard from '../molecules/ServiceCard';
 import Button from '../atoms/Button';
 import { services } from '../../data/services';
+import StaggeredAnimation from '../atoms/StaggeredAnimation';
 
 export default function ServicesSection() {
   return (
@@ -22,17 +23,17 @@ export default function ServicesSection() {
           </p>
         </header>
 
-        <div 
+        <StaggeredAnimation 
+          direction="alternate"
+          staggerDelay={0.15}
           className="grid md:grid-cols-2 lg:grid-cols-4 gap-8"
-          role="list"
-          aria-label="Lista de servicios médicos especializados"
         >
           {services.map((service, index) => (
             <div key={index} role="listitem">
               <ServiceCard {...service} />
             </div>
           ))}
-        </div>
+        </StaggeredAnimation>
 
         {/* Call to action */}
         <aside 

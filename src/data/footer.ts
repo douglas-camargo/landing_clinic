@@ -15,9 +15,11 @@ export const companyInfo = {
 };
 
 export const socialLinks = [
-  { name: 'Facebook', url: '#', icon: 'Facebook' },
-  { name: 'Instagram', url: '#', icon: 'Instagram' },
-  { name: 'Twitter', url: '#', icon: 'Twitter' }
+  { name: 'Facebook', url: 'https://facebook.com', icon: 'Facebook' },
+  { name: 'Instagram', url: 'https://instagram.com', icon: 'Instagram' },
+  { name: 'Twitter', url: 'https://twitter.com', icon: 'Twitter' },
+  { name: 'LinkedIn', url: 'https://linkedin.com', icon: 'LinkedIn' },
+  { name: 'YouTube', url: 'https://youtube.com', icon: 'Youtube' }
 ];
 
 export const emergencyInfo = {

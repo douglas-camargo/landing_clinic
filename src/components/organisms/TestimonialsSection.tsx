@@ -1,5 +1,7 @@
 import TestimonialCard from '../molecules/TestimonialCard';
-import { testimonials, patientStats } from '../../data';
+import { testimonials } from '../../data/testimonials';
+import { patientStats } from '../../data/stats';
+import StaggeredAnimation from '../atoms/StaggeredAnimation';
 
 export default function TestimonialsSection() {
   return (
@@ -21,17 +23,17 @@ export default function TestimonialsSection() {
           </p>
         </header>
 
-        <div 
+        <StaggeredAnimation 
+          direction="alternate"
+          staggerDelay={0.18}
           className="grid md:grid-cols-2 lg:grid-cols-4 gap-8"
-          role="list"
-          aria-label="Testimonios de pacientes satisfechos"
         >
           {testimonials.map((testimonial, index) => (
             <div key={index} role="listitem">
               <TestimonialCard {...testimonial} />
             </div>
           ))}
-        </div>
+        </StaggeredAnimation>
 
         {/* Stats section */}
         <aside 

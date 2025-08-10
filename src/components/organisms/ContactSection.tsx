@@ -6,7 +6,7 @@ import Input from '../atoms/Input';
 import TextArea from '../atoms/TextArea';
 import Select from '../atoms/Select';
 import Button from '../atoms/Button';
-import { useContactForm } from '../../hooks';
+import { useContactForm } from '../../hooks/useContactForm';
 
 const serviceOptions = [
   { value: 'consulta-general', label: 'Consulta General' },

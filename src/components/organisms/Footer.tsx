@@ -1,8 +1,8 @@
-import { MapPin, Phone, Mail, Facebook, Instagram, Twitter, Heart } from 'lucide-react';
+import { MapPin, Phone, Mail, Facebook, Instagram, Twitter, Linkedin, Youtube, Heart } from 'lucide-react';
 import Logo from '../atoms/Logo';
 import { quickLinks, services, companyInfo, socialLinks, emergencyInfo } from '../../data/footer';
 import { contactInfo } from '../../data/navigation';
-import { useScrollToSection } from '../../hooks';
+import { useScrollToSection } from '../../hooks/useScrollToSection';
 
 export default function Footer() {
   const scrollToSection = useScrollToSection();
@@ -13,20 +13,59 @@ export default function Footer() {
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Company Info */}
           <div className="space-y-4">
-            <Logo showText={true} className="text-white" />
+            <Logo showText={true} className="[&>span]:text-white [&>div]:shadow-lg" />
             <p className="text-gray-400 leading-relaxed">
               {companyInfo.description}
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors">
-                <Facebook className="w-5 h-5" />
-              </a>
-              <a href="#" className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors">
-                <Instagram className="w-5 h-5" />
-              </a>
-              <a href="#" className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-blue-600 transition-colors">
-                <Twitter className="w-5 h-5" />
-              </a>
+              {socialLinks.map((social) => {
+                const getIcon = () => {
+                  switch (social.icon) {
+                    case 'Facebook':
+                      return <Facebook className="w-5 h-5" />;
+                    case 'Instagram':
+                      return <Instagram className="w-5 h-5" />;
+                    case 'Twitter':
+                      return <Twitter className="w-5 h-5" />;
+                    case 'LinkedIn':
+                      return <Linkedin className="w-5 h-5" />;
+                    case 'Youtube':
+                      return <Youtube className="w-5 h-5" />;
+                    default:
+                      return <Facebook className="w-5 h-5" />;
+                  }
+                };
+
+                const getHoverColor = () => {
+                  switch (social.icon) {
+                    case 'Facebook':
+                      return 'hover:bg-blue-600';
+                    case 'Instagram':
+                      return 'hover:bg-gradient-to-r hover:from-purple-600 hover:to-pink-600';
+                    case 'Twitter':
+                      return 'hover:bg-blue-400';
+                    case 'LinkedIn':
+                      return 'hover:bg-blue-700';
+                    case 'Youtube':
+                      return 'hover:bg-red-600';
+                    default:
+                      return 'hover:bg-blue-600';
+                  }
+                };
+
+                return (
+                  <a 
+                    key={social.name}
+                    href={social.url} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className={`w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center transition-colors ${getHoverColor()}`}
+                    aria-label={`Síguenos en ${social.name}`}
+                  >
+                    {getIcon()}
+                  </a>
+                );
+              })}
             </div>
           </div>
 
